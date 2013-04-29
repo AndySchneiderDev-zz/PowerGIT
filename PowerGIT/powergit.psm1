@@ -1,6 +1,4 @@
 ﻿
-#Add-Type -Path $PSSCriptRoot\LibGit2Sharp.dll | Out-Null
-
 Function Connect-GitRepository {
 Param
     (
@@ -148,5 +146,3 @@ else
 New-Alias Checkout-GitRepository Connect-GitRepository
 
 Export-ModuleMember -Alias * -Function *
-
-Connect-GitRepository
