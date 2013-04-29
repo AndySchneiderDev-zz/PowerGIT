@@ -1,4 +1,5 @@
 ﻿
+
 Function Connect-GitRepository {
 Param
     (
@@ -124,7 +125,7 @@ Param
    
 }
 
-#test
+
 
 Function Get-GitStatus {
 Param
@@ -144,5 +145,14 @@ else
 }
 
 New-Alias Checkout-GitRepository Connect-GitRepository
+New-Alias checkout connect-GitRepository
+New-Alias add Add-GitFile
+New-Alias commit Invoke-GitCommit
+New-Alias tag Add-GitTag
+New-Alias branch New-GitBranch
+New-Alias status Get-GitStatus
+New-Alias log Get-GitLog
+
+
 
 Export-ModuleMember -Alias * -Function *
