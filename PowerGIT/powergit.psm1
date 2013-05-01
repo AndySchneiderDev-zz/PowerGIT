@@ -160,10 +160,12 @@ $repo.head.Name
 }
 
 Function Write-IseGitPrompt {
+
 $branch = Get-GitBranchCurrent
 $modified = (Get-GitStatus | where state -eq "Modified" | Measure-Object).Count
 $untracked = (Get-GitStatus | where state -eq "Untracked" | Measure-Object).Count
-if (($modified > 0) -or ($untracked > 0 )) 
+
+if (($modified -gt 0) -or ($untracked -gt 0 )) 
     {
         Write-Host "[$branch M:$modified U:$untracked]" -ForegroundColor Red -NoNewline
     }
@@ -173,6 +175,29 @@ else
     }
 
 }
+
+function prompt {
+    $history = @(get-history)
+    if($history.Count -gt 0)
+{
+        $lastItem = $history[$history.Count - 1]
+        $lastId = $lastItem.Id
+    }
+
+    $nextCommand = $lastId + 1
+    $Host.ui.rawui.windowtitle = "PS " + $(get-location)
+    $myPrompt = "$nextCommand > "
+    if ($NestedPromptLevel -gt 0) {
+        $arrows = ">"*$NestedPromptLevel; 
+        $myPrompt = "PS-nested $arrows"}
+    if (test-path .git)
+     {
+       Connect-GitRepository
+       Write-IseGitPrompt
+       " $myprompt"
+     }
+    else { $myPrompt}
+    }
 
 New-Alias Checkout-GitRepository Connect-GitRepository
 New-Alias checkout connect-GitRepository
