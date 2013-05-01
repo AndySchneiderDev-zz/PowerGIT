@@ -144,6 +144,21 @@ else
     }  
 }
 
+Function Get-GitBranch {
+Param
+    (
+    [Parameter()]
+    $Branch
+    )
+
+    $repo.Branches | where {$_.Name -like $Branch}
+
+}
+
+Function Get-GitBranchCurrent {
+$repo.head.Name
+}
+
 New-Alias Checkout-GitRepository Connect-GitRepository
 New-Alias checkout connect-GitRepository
 New-Alias add Add-GitFile
