@@ -159,6 +159,21 @@ Function Get-GitBranchCurrent {
 $repo.head.Name
 }
 
+Function Write-IseGitPrompt {
+$branch = Get-GitBranchCurrent
+$modified = (Get-GitStatus | where state -eq "Modified" | Measure-Object).Count
+$untracked = (Get-GitStatus | where state -eq "Untracked" | Measure-Object).Count
+if (($modified > 0) -or ($untracked > 0 )) 
+    {
+        Write-Host "[$branch M:$modified U:$untracked]" -ForegroundColor Red -NoNewline
+    }
+else
+    {
+        Write-Host "[$branch]" -ForegroundColor Green -NoNewline
+    }
+
+}
+
 New-Alias Checkout-GitRepository Connect-GitRepository
 New-Alias checkout connect-GitRepository
 New-Alias add Add-GitFile
